@@ -43,7 +43,7 @@ const getPosts = async (req, res) => {
           [posts[i].post_id]
         );
         const { rows } = pics,
-        [row] = rows;
+          [row] = rows;
 
         if (!row) {
           pics.rows = [
@@ -68,7 +68,7 @@ const createPost = async (req, res) => {
   const pool = req.app.get("pool");
   const { city, date, occasion, details } = req.query;
   const pictures = Object.values(req.files);
-
+console.log()
   try {
     const [post] = await pool
       .query(
@@ -78,23 +78,12 @@ const createPost = async (req, res) => {
       .then((res) => res.rows);
 
     const picPromises = pictures.map((image) =>
-      cloudinary.uploader.upload(image.path, {
-        eager: {
-          fetch_format: "auto",
-          width: 500,
-          height: 500,
-          crop: "fill_pad",
-          gravity: "auto",
-          quality: "auto",
-        },
-      })
+      cloudinary.uploader.upload(image.path, { quality: 80,format:'jpg' })
     );
 
     Promise.all(picPromises).then((response) => {
       for (let i = 0; i < response.length; ++i) {
-        const { url } = response[i];
-        const public_id = response[i].public_id;
-
+        const { url, public_id } = response[i];
         pool.query(
           `INSERT INTO pictures (url,public_id,post_id) VALUES ($1,$2,$3) returning *`,
           [url, public_id, post.post_id],

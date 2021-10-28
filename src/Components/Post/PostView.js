@@ -22,10 +22,26 @@ useEffect(()=>{
 getPost()
 },[getPost])
 return <ViewBox>
+<InfoSpace>
+<Info></Info>
+<Info></Info>
+<Info></Info>
+<Info></Info>
+<Info></Info>
+<Info>Title</Info>
+    <Info>
 {post[0]?.city}
+    </Info>
+    <Info>
 {post[0]?.occasion}
+    </Info>
+    <Info>
 {post[0]?.details}
+    </Info>
+    <Info>
 {post[0]?.date}
+    </Info>
+</InfoSpace>
 {post.map((p,i)=>{
 return <Image key={i} publicId={p.public_id}>
     <Transformation crop='scale' height='300' quality='70'/>
@@ -36,6 +52,22 @@ return <Image key={i} publicId={p.public_id}>
 
 export default PostView
 const ViewBox = styled.section`
-width:100vw;
-height:calc(100vh - 3rem);
+height: calc(100vh - 3rem);
+overflow-y: auto;
+width: 100vw;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+z-index: 1;
+`
+const Info = styled.h4`
+padding:0.5rem;
+text-align:center;
+`
+const InfoSpace=styled.span`
+display:flex;
+flex-direction:column;
+justify-content:space-around;
+align-items:flex-start;
 `

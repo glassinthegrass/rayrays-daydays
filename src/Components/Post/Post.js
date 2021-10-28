@@ -7,31 +7,30 @@ const Post = ({ post }) => {
 
   const picture = (
     <Img publicId={post.pictures[0]?.public_id}>
-      <Transformation crop="fill" width="300" height="300" quality='100' format='auto'/>
-      <Transformation overlay={{fontFamily: "Arial", fontSize: 35, fontWeight: "bold", text: "Hello%20World"}} gravity="north" x="10" y="70" />
-      <Transformation overlay={{fontFamily: "Arial", fontSize: 15, text: `${post.date}`}} gravity="south_east" x="10" y="10" />
+      <Transformation crop="pad" width="300" quality='auto' format='png'/>
+      <Transformation overlay={{fontFamily: "Futura", fontSize: 40, fontWeight: "bold", text: `${ post?.occasion?post.occasion:' untitled '}`}} crop='fit' width='270' background='#fcd47e' gravity="north_west" x="10" y="10" color='#9f21ff' radius='5' border="2px_solid_rgb:9f21ff"/>
+      <Transformation overlay={{fontFamily: "Futura", fontWeight:'bold', fontSize: 15, text: `${ post?.date!=='--' ?post.date:' untitled '}`}} gravity="south_east" x="10" y="10" color='#fcd47e' background='#9f21ff' radius='5' />
     </Img>
   );
 
   return (
     <StyledPost>
-      <div onClick={() => push(`/posts/${post.post_id}?occasion=${post.occasion}`)}>
+      <Span onClick={() => push(`/posts/${post.post_id}?occasion=${post.occasion}`)}>
       <PostHeader >
-        <PostTitle >{post.occasion}</PostTitle>
       {picture}
-        <PostDate >{post.date}</PostDate>
       </PostHeader>
-      </div>
+        <PostDate>people</PostDate>
+      </Span>
     </StyledPost>
   );
 };
 export default Post;
 
 const StyledPost = styled.div`
-  background-color: ${(props) => props.theme.red};
+background-color:${props=>props.theme.pink};
   margin-bottom: 1rem;
-  width: calc(100% - 4px);
-  padding: 1px;
+  width: 100%;
+  padding: 5px;
   margin-left: 1px;
   margin-right: 1px;
   display: flex;
@@ -44,16 +43,19 @@ const StyledPost = styled.div`
 
   } ;
 `;
+const Span =styled.span`
+cursor:pointer;
+`
 
 const PostHeader = styled.header`
   display: flex;
   flex-direction:column;
 align-items:space-between;
 justify-content:space-between;
-background-color:${props=>props.theme.red};
+color:${props=>props.theme.pink};
+border:3px solid ${props=>props.theme.pink};
 `;
 const Img = styled(Image)`
-
 `;
 const PostTitle = styled.h1`
 padding:10px;
@@ -64,5 +66,5 @@ text-align:center;
 const PostDate = styled.p`
 text-align:right;
 padding-right:1rem;
-color:${props=>props.theme.yellow};
+color:${props=>props.theme.purple};
 `;
