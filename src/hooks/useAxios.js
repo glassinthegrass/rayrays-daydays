@@ -31,6 +31,6 @@ const useAxios = (request) => {
       axiosCallback();
     }
   }, [reque]);
-  return [{ data, loading, error },handleReque];
+  return [{ data, loading, error }, handleReque];
 };
 export default useAxios;

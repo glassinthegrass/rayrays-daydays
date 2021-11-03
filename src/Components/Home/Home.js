@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Post from "../Post/Post.js";
 import styled from "styled-components";
+import { UserContext } from "../../Context/UserProvider.js";
 
 import useAxios from "../../hooks/useAxios.js";
 
 const Home = (props) => {
+  const [{ isLoggedIn }, setUser] = useContext(UserContext);
   const [offset, setOffset] = useState(0);
 
   const [{ data, loading, error }, recall] = useAxios({

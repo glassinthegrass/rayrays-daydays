@@ -1,4 +1,4 @@
-import React, { useState, createRef,  } from "react";
+import React, { useState, createRef } from "react";
 import Compressor from "compressorjs";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -22,7 +22,7 @@ const Create = (props) => {
 
   const handle = {
     city: (e) => {
-        setCity(e)
+      setCity(e);
     },
     occasion: (e) => {
       setOccasion(e);
@@ -46,110 +46,98 @@ const Create = (props) => {
       setDetails(e);
     },
     createPost: async () => {
-      let fileData= new FormData();
-    for(let i = 0; i<photos.length;i++){
-      fileData.append(i,photos[i]);
-    }
-
-      let config = {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        };
-    
-      try{
-          let newPost = await axios.post(
-            `/api/posts?occasion=${occasion}&city=${city}&date=${`${date.month}-${date.day}-${date.year}`}&details=${details}`,fileData,config
-          );
-              if(newPost.status===200){
-                  push(`/posts/${newPost.data.post_id}`)
-              }
-      }catch(err){
-          console.log(err)
+      let fileData = new FormData();
+      for (let i = 0; i < photos.length; i++) {
+        fileData.append(i, photos[i]);
       }
 
-  },
-  files: (files) => {
-    let values = Object.values(files)
-    setPreview(values)
-    let arr= []
-    for(let i=0; i<values.length;i++){
-      new Compressor(values[i],{quality:80,success(result){
-        arr.push(result);
-      }})
-    }
-    return setPhotos(arr);
-  },
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      try {
+        let newPost = await axios.post(
+          `/api/posts?occasion=${occasion}&city=${city}&date=${`${date.month}-${date.day}-${date.year}`}&details=${details}`,
+          fileData,
+          config
+        );
+        if (newPost.status === 200) {
+          push(`/posts/${newPost.data.post_id}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    files: (files) => {
+      let pic = Object.values(files);
+      let values = [...preview, ...pic];
+
+      setPreview(values);
+      let arr = [...photos];
+      for (let i = 0; i < values.length; i++) {
+        new Compressor(values[i], {
+          quality: 80,
+          success(result) {
+            arr.push(result);
+          },
+        });
+      }
+      return setPhotos(arr);
+    },
   };
-  let map = preview.map((p, i) => {
-    return <Img src={URL.createObjectURL(p)} key={i} alt="" />;
-  })
 
   return (
     <CreateBox>
-<TextInputs handle={handle} occassion={occasion} dd={dd} mm={mm} yyyy={yyyy} city={city} date={date} details={details}/>
-      <Preview handle={handle}/>
-      <WrapCenter>
-      <MapWrap>
-      {map}
-      </MapWrap>
-      </WrapCenter>
-<Label as='div'
-  onClick={() => handle.createPost()}
->
-  Submit
-</Label>
+      <TextInputs
+        handle={handle}
+        occassion={occasion}
+        dd={dd}
+        mm={mm}
+        yyyy={yyyy}
+        city={city}
+        date={date}
+        details={details}
+      />
+      <Preview preview={preview} handle={handle} />
+
+      <Label as="div" onClick={() => handle.createPost()}>
+        Submit
+      </Label>
     </CreateBox>
   );
 };
 export default Create;
-const MapWrap=styled.section`
-display:flex;
-justify-content:center;
-align-items:center;
-flex-wrap:wrap;
-width:calc(60% + 2rem);
-gap:3rem;
-padding:1rem;
-`
-const WrapCenter=styled.div`
-display:flex;
-justify-content:center;
-align-items:flex-start;
-width:100%;
-`
+
 const CreateBox = styled.main`
-width: 100vw;
+  width: 100vw;
   height: 100vh;
   display: flex;
-  overflow-y:auto;
+  overflow-y: auto;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 `;
 
-let Label = styled.label` 
+let Label = styled.label`
   display: flex;
-  width:calc(60%);
-  min-height:3rem;
-  padding:1rem;
-  cursor:pointer;
-  background-color: ${props=>props.theme.yellow};
-  justify-content:center;
+  width: calc(60%);
+  min-height: 3rem;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: ${(props) => props.theme.yellow};
+  justify-content: center;
   align-items: center;
-  text-align:center;
+  text-align: center;
   font-size: 10px;
-  font-size:20px;
-  color: ${props=>props.theme.purple};
+  font-size: 20px;
+  color: ${(props) => props.theme.purple};
   z-index: 2;
-  border:3px solid;
-  &: hover{
-    border:3px solid ${props=>props.theme.purple};
-    background-color:${props=>props.theme.purple};
-    color:${props=>props.theme.yellow};
+  border: 3px solid;
+  &: hover {
+    border: 3px solid ${(props) => props.theme.purple};
+    background-color: ${(props) => props.theme.purple};
+    color: ${(props) => props.theme.yellow};
   }
-`;
-
-const Img = styled.img`
-  width: 10rem;
 `;

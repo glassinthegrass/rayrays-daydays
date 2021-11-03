@@ -1,21 +1,5 @@
 const cloudinary = require("cloudinary").v2;
 
-const getUsers = (req, res) => {
-  const { user_id } = req.query;
-  const pool = req.app.get("pool");
-  pool.query(
-    "SELECT * FROM users WHERE user_id =$1",
-    [user_id],
-    (error, { rows }) => {
-      if (error) {
-        throw error;
-      }
-      const [user] = rows;
-      res.status(200).send({ user });
-    }
-  );
-};
-
 const getPosts = async (req, res) => {
   const { offset } = req.query;
   const pool = req.app.get("pool");
@@ -67,8 +51,9 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
   const pool = req.app.get("pool");
   const { city, date, occasion, details } = req.query;
+  console.log(req.files);
   const pictures = Object.values(req.files);
-console.log()
+
   try {
     const [post] = await pool
       .query(
@@ -78,7 +63,7 @@ console.log()
       .then((res) => res.rows);
 
     const picPromises = pictures.map((image) =>
-      cloudinary.uploader.upload(image.path, { quality: 80,format:'jpg' })
+      cloudinary.uploader.upload(image.path, { quality: 80, format: "jpg" })
     );
 
     Promise.all(picPromises).then((response) => {
@@ -104,20 +89,30 @@ console.log()
 const getSinglePost = async (req, res) => {
   const pool = req.app.get("pool");
   const { post_id } = req.params;
-  console.log(post_id);
+  const { offset } = req.query;
+
   try {
-    const post = await pool.query(
-      `SELECT * FROM posts po join pictures pic on po.post_id= pic.post_id WHERE po.post_id =$1`,
+    const postQuery = await pool.query(
+      `SELECT * FROM posts WHERE post_id =$1`,
       [post_id]
     );
-    res.status(200).send(post.rows);
+    const [post] = postQuery.rows;
+
+    let pics = await pool.query(
+      `select * from pictures WHERE post_id =$1
+  order by post_id desc
+  LIMIT 9 OFFSET $2;`,
+      [post.post_id, offset]
+    );
+    post.pictures = pics.rows;
+    console.log(post);
+    res.status(200).send(post);
   } catch (err) {
     console.log(err);
   }
 };
 
 module.exports = {
-  getUsers,
   createPost,
   getPosts,
   getSinglePost,

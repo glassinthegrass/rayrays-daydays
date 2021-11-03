@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    username varchar(20) UNIQUE NOT NULL,
     email VARCHAR(255) NOT NULL,
     hash TEXT NOT NULL,
     admin BOOL DEFAULT FALSE

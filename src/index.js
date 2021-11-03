@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { CloudinaryContext } from "cloudinary-react";
 import StyleProvider from "./Context/StyleProvider";
+import { UserProvider } from "./Context/UserProvider";
 import { HashRouter,BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -12,6 +13,7 @@ const Router = process.env.NODE_ENV==='development'?HashRouter:BrowserRouter;
 const root= document.getElementById("root")
 ReactDOM.render(
   <React.StrictMode>
+<UserProvider>
     <CloudinaryContext cloudName="glassinthegrass" secure="true">
       <StyleProvider>
       <Router history={customHistory}>
@@ -19,6 +21,7 @@ ReactDOM.render(
         </Router>
       </StyleProvider>
     </CloudinaryContext>
+    </UserProvider>
   </React.StrictMode>,
 root
 );
