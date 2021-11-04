@@ -1,12 +1,12 @@
-import React, { useState, createRef } from "react";
+import React, { useState, useContext, createRef } from "react";
 import Compressor from "compressorjs";
-import { useHistory } from "react-router";
+import { useHistory,Redirect } from "react-router";
 import axios from "axios";
-
 import styled from "styled-components";
 import TextInputs from "./TextInputs";
 import Preview from "./Preview";
-const Create = (props) => {
+const Create = ({UserContext}) => {
+  const [{isLoggedIn}]=useContext(UserContext);
   const push = useHistory().push;
   const [occasion, setOccasion] = useState("");
   const [city, setCity] = useState("");

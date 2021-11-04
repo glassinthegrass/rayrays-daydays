@@ -7,8 +7,8 @@ const StyleProvider = (props) => {
 
   const style = {
     theme: theme,
-    row: `display:flex;justify-content:center;align-items:center;`,
-    column: `display:flex;flex-direction:column;justify-content:center;align-items:flex-start;`,
+    row: `display:flex;justify-content:center;align-items:flex-start;`,
+    column: `display:flex;flex-direction:column;justify-content:center;align-items:center;`,
     maroon: "rgb(126, 35, 66)",
     red: "rgb(162, 65, 107)",
     yellow: "rgb(252, 212, 126)",

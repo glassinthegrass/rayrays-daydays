@@ -13,7 +13,7 @@ const {
   getSinglePost,
   getPosts,
 } = require("./queries/queries.js");
-
+const {login,register}=require('./queries/authCtrl.js');
 
 
 app.use(formData.parse());
@@ -36,7 +36,6 @@ const pool = new Pool(
       rejectUnauthorized: false,
     },
   },
-  { scripts: path.join(__dirname, "../db") }
 );
 
 cloudinary.config({
@@ -45,7 +44,8 @@ cloudinary.config({
   api_secret: API_SECRET,
 });
 
-
+app.post('/auth/register',register);
+app.post('/auth/login',login);
 app.get("/api/posts/:post_id", getSinglePost);
 app.get("/api/posts", getPosts);
 app.post(`/api/posts`, createPost);

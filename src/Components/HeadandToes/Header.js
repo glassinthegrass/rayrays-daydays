@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory, useRouteMatch } from "react-router";
+import { useHistory, useRouteMatch, NavLink } from "react-router-dom";
 const Header = (props) => {
   const [redirect, setRedirect] = useState("");
-  const history = useHistory(),
-    { push, location } = history,
-    { pathname } = location;
+  const pathname = useHistory().location.pathname;
+
   const path = useRouteMatch().path;
+
   useEffect(() => {
     setRedirect(path);
   }, [path]);
@@ -17,9 +17,9 @@ const Header = (props) => {
       <Spacer></Spacer>
       <Title>RayRay's DayDay's</Title>
       <Spacer as="h6">
-        <Links onClick={() => push("/")}>home</Links>
-        <Links onClick={() => push(loc)}>Login</Links>
-        <Links onClick={() => push("/create")}>create</Links>
+        <Links to="/">Home</Links>
+        <Links to={loc}>Login</Links>
+        <Links to="/create">Create</Links>
       </Spacer>
     </StyledHeader>
   );
@@ -51,7 +51,7 @@ const Title = styled.h1`
   font-size: 10px;
 `;
 
-const Links = styled.div`
+const Links = styled(NavLink)`
   @media (min-width: 425px) {
     font-size: 20px;
     text-align: center;

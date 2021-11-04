@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const getPosts = async (req, res) => {
   const { offset } = req.query;
   const pool = req.app.get("pool");
-
+  console.log(offset);
   try {
     let posts = await pool
       .query(
@@ -51,7 +51,6 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
   const pool = req.app.get("pool");
   const { city, date, occasion, details } = req.query;
-  console.log(req.files);
   const pictures = Object.values(req.files);
 
   try {
@@ -68,10 +67,10 @@ const createPost = async (req, res) => {
 
     Promise.all(picPromises).then((response) => {
       for (let i = 0; i < response.length; ++i) {
-        const { url, public_id } = response[i];
+        const { public_id } = response[i];
         pool.query(
-          `INSERT INTO pictures (url,public_id,post_id) VALUES ($1,$2,$3) returning *`,
-          [url, public_id, post.post_id],
+          `INSERT INTO pictures (public_id,post_id) VALUES ($1,$2) returning *`,
+          [public_id, post.post_id],
           (error, result) => {
             if (error) {
               res.status(404).send({ message: "something went wrong", error });
@@ -105,7 +104,7 @@ const getSinglePost = async (req, res) => {
       [post.post_id, offset]
     );
     post.pictures = pics.rows;
-    console.log(post);
+
     res.status(200).send(post);
   } catch (err) {
     console.log(err);
