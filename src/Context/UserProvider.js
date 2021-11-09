@@ -33,13 +33,11 @@ export const UserProvider = (props) => {
         setLoading(false);
       }
     },
-    logout: async () => {
+    logout: () => {
       setLoading(true);
       try {
-        let [loggedOut] = await axios.delete(`/auth/logout`);
-        if (loggedOut) {
+          axios.delete(`/auth/logout`);
           setUser({ isLoggedIn: false });
-        }
       } catch (err) {
         setError(err.message.data);
       } finally {

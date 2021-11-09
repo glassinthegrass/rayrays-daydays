@@ -1,20 +1,22 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const session= require('express-session')
+const session = require("express-session");
 const path = require("path");
 const { Pool } = require("pg");
 const formData = require("express-form-data");
 const cloudinary = require("cloudinary");
-const { SERVER_PORT,SESSION_SECRET, ADMIN_SECRET,CLOUD_NAME, API_KEY, API_SECRET, CONNECTION_STRING } =
-  process.env;
 const {
-  createPost,
-  getSinglePost,
-  getPosts,
-} = require("./queries/queries.js");
-const {login,register}=require('./queries/authCtrl.js');
-
+  SERVER_PORT,
+  SESSION_SECRET,
+  ADMIN_SECRET,
+  CLOUD_NAME,
+  API_KEY,
+  API_SECRET,
+  CONNECTION_STRING,
+} = process.env;
+const { createPost, getSinglePost, getPosts } = require("./queries/queries.js");
+const { login, register, logout } = require("./queries/authCtrl.js");
 
 app.use(formData.parse());
 app.use(express.json());
@@ -29,14 +31,12 @@ app.use(
   })
 );
 
-const pool = new Pool(
-  {
-    connectionString: CONNECTION_STRING,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+const pool = new Pool({
+  connectionString: CONNECTION_STRING,
+  ssl: {
+    rejectUnauthorized: false,
   },
-);
+});
 
 cloudinary.config({
   cloud_name: CLOUD_NAME,
@@ -44,8 +44,9 @@ cloudinary.config({
   api_secret: API_SECRET,
 });
 
-app.post('/auth/register',register);
-app.post('/auth/login',login);
+app.post("/auth/register", register);
+app.post("/auth/login", login);
+app.delete("/auth/logout", logout);
 app.get("/api/posts/:post_id", getSinglePost);
 app.get("/api/posts", getPosts);
 app.post(`/api/posts`, createPost);
@@ -59,7 +60,7 @@ pool
   .connect()
   .then(() => {
     app.listen(SERVER_PORT, () => {
-      app.set('secret',ADMIN_SECRET);
+      app.set("secret", ADMIN_SECRET);
       app.set("pool", pool);
       console.log(`ray rays day days freshly ported from ${SERVER_PORT}`);
     });

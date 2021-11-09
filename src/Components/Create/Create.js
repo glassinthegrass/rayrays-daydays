@@ -1,12 +1,12 @@
-import React, { useState, useContext, createRef } from "react";
+import React, { useState, createRef } from "react";
 import Compressor from "compressorjs";
-import { useHistory,Redirect } from "react-router";
+import { useHistory, Redirect } from "react-router";
 import axios from "axios";
 import styled from "styled-components";
 import TextInputs from "./TextInputs";
 import Preview from "./Preview";
-const Create = ({UserContext}) => {
-  const [{isLoggedIn}]=useContext(UserContext);
+const Create = ({ user }) => {
+  const { isLoggedIn } = user;
   const push = useHistory().push;
   const [occasion, setOccasion] = useState("");
   const [city, setCity] = useState("");
@@ -19,7 +19,7 @@ const Create = ({UserContext}) => {
   const mm = createRef(),
     dd = createRef(),
     yyyy = createRef();
-
+  const redirect = !isLoggedIn ? <Redirect to="/login" /> : <React.Fragment></React.Fragment>;
   const handle = {
     city: (e) => {
       setCity(e);
@@ -105,6 +105,7 @@ const Create = ({UserContext}) => {
       <Label as="div" onClick={() => handle.createPost()}>
         Submit
       </Label>
+      {redirect}
     </CreateBox>
   );
 };

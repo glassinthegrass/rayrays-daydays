@@ -1,13 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router";
 import Post from "../Post/Post.js";
 import styled from "styled-components";
-import { UserContext } from "../../Context/UserProvider.js";
+
 
 import useAxios from "../../hooks/useAxios.js";
 
-const Home = (props) => {
-  const [{ isLoggedIn }, setUser] = useContext(UserContext);
-  const [offset, setOffset] = useState(0);
+const Home = ({user}) => {
+const {isLoggedIn}=user;
+let redirect = !isLoggedIn ? <Redirect to='/login'/>:<React.Fragment/>;
+const [offset, setOffset] = useState(0);
 
   const [{ data, loading, error }, recall] = useAxios({
     method: "get",
@@ -32,6 +34,8 @@ const Home = (props) => {
 
   return (
     <HomeBox>
+      {console.log(loading)}
+      {redirect}
       <PostCenter onScroll={handleScroll}>
         <Space></Space>
         {postMap}
