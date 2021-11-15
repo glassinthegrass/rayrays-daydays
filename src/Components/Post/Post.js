@@ -54,7 +54,7 @@ const Post = ({ post }) => {
         onClick={() => push(`/posts/${post.post_id}?occasion=${post.occasion}`)}
       >
         <PostHeader>{picture}</PostHeader>
-        <PostDate>people</PostDate>
+        <PostDetails>{post.details}</PostDetails>
       </Span>
     </StyledPost>
   );
@@ -90,13 +90,8 @@ const PostHeader = styled.header`
   border: 3px solid ${(props) => props.theme.pink};
 `;
 const Img = styled(Image)``;
-const PostTitle = styled.h1`
-  padding: 10px;
-  font-size: 25px;
-  color: ${(props) => props.theme.blue};
-  text-align: center;
-`;
-const PostDate = styled.p`
+
+const PostDetails = styled.p`
   text-align: right;
   padding-right: 1rem;
   color: ${(props) => props.theme.purple};

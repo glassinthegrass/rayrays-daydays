@@ -16,7 +16,7 @@ const Preview = ({ handle, preview }) => {
           multiple="multiple"
           onChange={(e) => handle.files(e.target.files)}
         />
-        <Label htmlFor="multi">Select Photos</Label>
+        <Label htmlFor="multi"><Column>Select Photos <Paragraph>(limit 10)</Paragraph></Column></Label>
       </UploadContainer>
       <WrapCenter>
         <MapWrap>{map}</MapWrap>
@@ -80,3 +80,14 @@ const WrapCenter = styled.div`
   align-items: flex-start;
   width: 100%;
 `;
+
+const Column = styled.span`
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+`
+const Paragraph = styled.p`
+font-size:10px;
+
+`

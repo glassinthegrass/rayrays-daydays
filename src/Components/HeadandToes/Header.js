@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink, useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const Header = ({ user, logout }) => {
   const path = useLocation().pathname;
   const back = useHistory().goBack;
-  const backButton = path.includes("/posts") ? (
+  const backButton = path.includes("/posts") ||path.includes('/request-login')? (
     <h1 onClick={() => back(-1)}>{"<"}</h1>
   ) : (
     <React.Fragment></React.Fragment>
   );
+  let hideDiv = path==='/login'?'display:none':'font-size:20px'
   let renderLinks = (
     <React.Fragment>
       {user.admin && (
@@ -22,7 +23,7 @@ const Header = ({ user, logout }) => {
           </Links>
         </React.Fragment>
       )}
-      <Links
+      <Links 
         activeClassName={user.isLoggedIn ? "active" : ""}
         onClick={() => logout()}
         to="/login"
@@ -75,18 +76,21 @@ const Spacer = styled.div`
   overflow: hidden;
 `;
 export const Links = styled(NavLink)`
+text-decoration: none;
+font-size: 10px;
+color:${props=>props.theme.purple};
+&:hover {
+  background-color: ${(props) => props.theme.yellow};
+}
+&.active {
+  background-color: ${(props) => props.theme.purple};
+  color:${props=>props.theme.yellow};
+}
   @media (min-width: 425px) {
     font-size: 20px;
     text-align: center;
     margin: 5px;
     padding: calc(1rem - 2px);
   }
-  text-decoration: none;
-  font-size: 10px;
-  &:hover {
-    background-color: ${(props) => props.theme.yellow};
-  }
-  &.active {
-    background-color: ${(props) => props.theme.purple};
-  }
+  
 `;

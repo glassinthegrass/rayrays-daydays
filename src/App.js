@@ -8,6 +8,8 @@ import Home from "./Components/Home/Home";
 import { Login } from "./Components/Login/Login";
 import PostView from "./Components/Post/PostView";
 import styled from "styled-components";
+import { LoginRequest } from "./Components/Login/LoginRequest";
+
 
 const App = (props) => {
   const [user, { loading, error, handleUser }] = useContext(UserContext);
@@ -18,8 +20,9 @@ const loadScreen = loading?<Main>loading</Main>:<React.Fragment>
   <Route exact path="/" component={() => <Home user={user} />} />
   <Route
     path="/login"
-    component={() => <Login handleUser={handleUser} user={user} />}
+    component={() => <Login error={error} handleUser={handleUser} user={user} />}
   />
+  <Route path='/request-login' component={()=><LoginRequest />}/>
   <Route path="/create" component={() => <Create user={user} />} />
   <Route
     path="/posts/:post_id"

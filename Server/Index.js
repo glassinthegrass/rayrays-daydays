@@ -15,8 +15,14 @@ const {
   API_SECRET,
   CONNECTION_STRING,
 } = process.env;
-const { createPost, getSinglePost, getPosts } = require("./queries/queries.js");
+const {
+  createPost,
+  getSinglePost,
+  getPosts,
+  editPicture,
+} = require("./queries/postCtrl.js");
 const { login, register, logout } = require("./queries/authCtrl.js");
+const { requestLogin } = require("./queries/emailCtrl.js");
 
 app.use(formData.parse());
 app.use(express.json());
@@ -47,10 +53,11 @@ cloudinary.config({
 app.post("/auth/register", register);
 app.post("/auth/login", login);
 app.delete("/auth/logout", logout);
+app.post("/api/request-login", requestLogin);
 app.get("/api/posts/:post_id", getSinglePost);
 app.get("/api/posts", getPosts);
 app.post(`/api/posts`, createPost);
-
+app.post(`/api/posts/pictures`,editPicture)
 app.use(express.static(__dirname + "/../build"));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build/index.html"));

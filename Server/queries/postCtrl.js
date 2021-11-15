@@ -98,7 +98,7 @@ const getSinglePost = async (req, res) => {
     const [post] = postQuery.rows;
 
     let pics = await pool.query(
-      `select * from pictures WHERE post_id =$1
+      `Select * from pictures WHERE post_id = $1
   order by post_id desc
   LIMIT 9 OFFSET $2;`,
       [post.post_id, offset]
@@ -111,8 +111,25 @@ const getSinglePost = async (req, res) => {
   }
 };
 
+const editPicture = async (req, res) => {
+  const pool = req.app.get("pool");
+  const { picture_id, description } = req.query;
+  console.log(picture_id, description);
+  try {
+    const pic = await pool.query(
+      `UPDATE pictures SET description = $1, picture_id = $2 WHERE picture_id = $2 returning *;`,
+      [description, picture_id]
+    );
+    console.log(pic);
+  } catch (err) {
+    console.log(err);
+    res.status(200).send("failure");
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getSinglePost,
+  editPicture,
 };

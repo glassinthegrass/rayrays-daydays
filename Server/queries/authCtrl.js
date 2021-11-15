@@ -10,12 +10,10 @@ const register = async (req, res) => {
         .query(`SELECT * FROM users WHERE email = $1;`, [email])
         .then((res) => res.rows);
       if (exists) {
-        return res
-          .status(409)
-          .send({
-            error: "register",
-            message: "Already registered, please sign in!",
-          });
+        return res.status(409).send({
+          error: "register",
+          message: "Already registered, please sign in!",
+        });
       } else {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
@@ -77,10 +75,10 @@ const login = async (req, res) => {
       .send({ error: "login", message: "something went wrong" });
   }
 };
-const logout= (req,res)=>{
-  req.session.destroy();
-}
 
+const logout = (req, res) => {
+  req.session.destroy();
+};
 
 module.exports = {
   register,

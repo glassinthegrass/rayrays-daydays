@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
-export const Login = ({ user, handleUser }) => {
+import { Redirect,useHistory } from "react-router-dom";
+export const Login = ({ error,user, handleUser }) => {
   const [newUser, setNewUser] = useState({ email: "", password: "" });
-
+const push = useHistory().push
   let redirect = user.isLoggedIn &&<Redirect to='/'/>;
 
   return (
@@ -19,7 +19,11 @@ export const Login = ({ user, handleUser }) => {
           type="password"
           placeholder="Password"
         />
+        {console.log(error)}
+        <div>
         <Button onClick={() => handleUser.login(newUser)}>Login</Button>
+        <LoginRequest onClick={()=>push('/request-login')}>click here to request a login</LoginRequest>
+        </div>
       </LoginBox>
       {redirect}
     </LoginMain>
@@ -33,7 +37,7 @@ const LoginMain = styled.section`
   width: 100vw;
 `;
 const LoginBox = styled.span`
-  height: 15rem;
+  height:15rem;
   padding: 1rem;
   width: 35rem;
   ${(props) => props.theme.column};
@@ -48,6 +52,18 @@ const Input = styled.input`
 `;
 const Button = styled.div`
   width: 35rem;
+  font-size:20px;
   height: 3rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+cursor:pointer;
   background-color: ${(props) => props.theme.yellow};
 `;
+
+const LoginRequest= styled.h1`
+cursor:pointer;
+margin:10px;
+padding:5px;
+width:15rem;
+`

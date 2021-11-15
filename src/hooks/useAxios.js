@@ -30,6 +30,7 @@ const useAxios = (request) => {
     if (reque) {
       axiosCallback();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reque]);
   return [{ data, loading, error }, handleReque];
 };

@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { Redirect } from "react-router";
 import Post from "../Post/Post.js";
 import styled from "styled-components";
-
-
 import useAxios from "../../hooks/useAxios.js";
 
-const Home = ({user}) => {
-const {isLoggedIn}=user;
-let redirect = !isLoggedIn ? <Redirect to='/login'/>:<React.Fragment/>;
-const [offset, setOffset] = useState(0);
+const Home = ({ user }) => {
+  const { isLoggedIn } = user;
+  let redirect = !isLoggedIn ? <Redirect to="/login" /> : <React.Fragment />;
+  const [offset, setOffset] = useState(0);
 
-  const [{ data, loading, error }, recall] = useAxios({
+  const [{ data }, recall] = useAxios({
     method: "get",
     url: `/api/posts?offset=${offset}`,
   });
@@ -34,7 +32,6 @@ const [offset, setOffset] = useState(0);
 
   return (
     <HomeBox>
-      {console.log(loading)}
       {redirect}
       <PostCenter onScroll={handleScroll}>
         <Space></Space>
@@ -67,10 +64,6 @@ const PostCenter = styled(HomeBox)`
     justify-content: center;
     align-items: center;
   }
-`;
-
-const Loading = styled.span`
-  color: ${(props) => props.theme.maroon};
 `;
 
 const Space = styled.span`

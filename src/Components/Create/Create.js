@@ -103,7 +103,7 @@ const Create = ({ user }) => {
       <Preview preview={preview} handle={handle} />
 
       <Label as="div" onClick={() => handle.createPost()}>
-        Submit
+        Submit Post
       </Label>
       {redirect}
     </CreateBox>
