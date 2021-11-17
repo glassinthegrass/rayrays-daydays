@@ -9,6 +9,7 @@ import { Login } from "./Components/Login/Login";
 import PostView from "./Components/Post/PostView";
 import styled from "styled-components";
 import { LoginRequest } from "./Components/Login/LoginRequest";
+import { Account } from "./Components/Account/Account";
 
 
 const App = (props) => {
@@ -28,6 +29,7 @@ const loadScreen = loading?<Main>loading</Main>:<React.Fragment>
     path="/posts/:post_id"
     component={() => <PostView user={user} />}
   />
+  <Route path='/account/:name' component={()=><Account user={user} handleUser={handleUser}/>}/>
 </Switch>
 </React.Fragment>
   return <Main>{loadScreen}</Main>

@@ -98,9 +98,9 @@ const getSinglePost = async (req, res) => {
     const [post] = postQuery.rows;
 
     let pics = await pool.query(
-      `Select * from pictures WHERE post_id = $1
-  order by post_id desc
-  LIMIT 9 OFFSET $2;`,
+      `SELECT * from pictures WHERE post_id = $1
+      order by picture_id asc
+      LIMIT 10 OFFSET $2;`,
       [post.post_id, offset]
     );
     post.pictures = pics.rows;

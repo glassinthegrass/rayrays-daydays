@@ -6,6 +6,10 @@ export const Login = ({ error,user, handleUser }) => {
 const push = useHistory().push
   let redirect = user.isLoggedIn &&<Redirect to='/'/>;
 
+const pressEnter=({key})=>{
+if(key==='Enter')handleUser.login(newUser);
+};
+
   return (
     <LoginMain>
       <LoginBox>
@@ -18,12 +22,12 @@ const push = useHistory().push
           onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
           type="password"
           placeholder="Password"
+          onKeyPress={(e)=>pressEnter(e)}
         />
-        {console.log(error)}
-        <div>
+
+
         <Button onClick={() => handleUser.login(newUser)}>Login</Button>
         <LoginRequest onClick={()=>push('/request-login')}>click here to request a login</LoginRequest>
-        </div>
       </LoginBox>
       {redirect}
     </LoginMain>
@@ -32,33 +36,47 @@ const push = useHistory().push
 
 const LoginMain = styled.section`
   ${(props) => props.theme.row};
-  align-items: center;
   height: calc(100vh - 3rem);
   width: 100vw;
+  margin-top:5rem;
+  @media(min-width:425px){
+    align-items: center;
+    align-items:flex-start;
+  };
 `;
 const LoginBox = styled.span`
   height:15rem;
   padding: 1rem;
-  width: 35rem;
+  width:100%;
   ${(props) => props.theme.column};
   justify-content: space-around;
   background-color: ${(props) => props.theme.pink};
+  @media(min-width:425px){
+    width: 35rem;
+  }
 `;
 const Input = styled.input`
+height: 3rem;
+margin: 0px;
+padding: 0px;
+width:calc(100% - 2rem);
+@media(min-width:425px){
   width: 35rem;
-  height: 3rem;
-  margin: 0px;
-  padding: 0px;
+  
+}; 
 `;
 const Button = styled.div`
-  width: 35rem;
-  font-size:20px;
-  height: 3rem;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+font-size:20px;
+height: 3rem;
+display:flex;
+justify-content:center;
+align-items:center;
+width:calc(100% - 2rem);
 cursor:pointer;
-  background-color: ${(props) => props.theme.yellow};
+background-color: ${(props) => props.theme.yellow};
+@media(min-width:425px){
+    width: 35rem;
+  } 
 `;
 
 const LoginRequest= styled.h1`

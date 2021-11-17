@@ -8,10 +8,14 @@ export const LoginRequest = () => {
         try{
           let message = await axios.post(`/api/request-login`,info)
           setResponse(message.data);
+          setInfo({email: "", name: "", relationship: ""})
         }catch(err){
           console.log(err)
         }
   };
+  const pressEnter=({key})=>{
+    if(key==='Enter')handleEmail();
+    }
   return (
     <LoginMain>
       <LoginBox>
@@ -28,6 +32,7 @@ export const LoginRequest = () => {
         <Input
           value={info.relationship}
           placeholder="Your relationship to Reagan"
+          onKeyPress={(e)=>pressEnter(e)}
           onChange={(e) => setInfo({ ...info, relationship: e.target.value })}
         />
         <Button onClick={()=>handleEmail(info)}>Request a Login</Button>
