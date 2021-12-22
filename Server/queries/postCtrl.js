@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const getPosts = async (req, res) => {
   const { offset } = req.query;
   const pool = req.app.get("pool");
-  console.log(offset);
+
   try {
     let posts = await pool
       .query(

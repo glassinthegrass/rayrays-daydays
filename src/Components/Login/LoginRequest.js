@@ -44,31 +44,47 @@ export const LoginRequest = () => {
 
 const LoginMain = styled.section`
   ${(props) => props.theme.row};
-  align-items: center;
   height: calc(100vh - 3rem);
   width: 100vw;
+  margin-top:5rem;
+  @media(min-width:425px){
+    align-items: center;
+    align-items:flex-start;
+  };
 `;
 const LoginBox = styled.span`
-  height: 15rem;
+  height:15rem;
   padding: 1rem;
-  width: 35rem;
+  width:100%;
   ${(props) => props.theme.column};
   justify-content: space-around;
   background-color: ${(props) => props.theme.pink};
+  @media(min-width:425px){
+    width: 35rem;
+  }
 `;
 const Input = styled.input`
+height: 3rem;
+margin: 0px;
+padding: 0px;
+width:calc(100% - 2rem);
+@media(min-width:599px){
   width: 35rem;
-  height: 3rem;
-  margin: 0px;
-  padding: 0px;
+  
+}; 
 `;
 const Button = styled.div`
-  width: 35rem;
-  font-size: 20px;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: ${(props) => props.theme.yellow};
+font-size:20px;
+height: 3rem;
+display:flex;
+justify-content:center;
+align-items:center;
+width:calc(100% - 2rem);
+cursor:pointer;
+background-color: ${(props) => props.theme.yellow};
+
+@media(min-width:599px){
+    width: 35rem;
+  } 
 `;
+

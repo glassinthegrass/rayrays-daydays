@@ -32,11 +32,11 @@ const PostView = ({ user }) => {
       setEdit(false);
       axios.post(
         `/api/posts/pictures?description=${details}&picture_id=${photos[idx].picture_id}`
-        );
-        let edit= photos.slice();
-        edit[idx].description = details;
-        setDetails('')
-      },
+      );
+      let edit = photos.slice();
+      edit[idx].description = details;
+      setDetails("");
+    },
   };
   const { getPost } = handle;
   useEffect(() => {
@@ -114,6 +114,8 @@ const PostView = ({ user }) => {
 };
 
 export default PostView;
+
+
 const MainPic = styled.div``;
 const Row = styled.span`
   width: 100%;
@@ -134,6 +136,12 @@ const ViewBox = styled.section`
   justify-content: flex-start;
 `;
 const PostBox = styled(ViewBox)`
+@media(min-width:425px){
+  width: calc(50rem);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+};
   display: flex;
   padding: 1rem;
   background-color: ${(props) => props.theme.purple};
@@ -142,12 +150,6 @@ const PostBox = styled(ViewBox)`
   align-items: center;
   height: calc(100%);
   width: calc(100% - 2rem);
-  @media (min-width: 425px) {
-    width: calc(50rem);
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-  } ;
 `;
 const Center = styled.span`
   display: flex;

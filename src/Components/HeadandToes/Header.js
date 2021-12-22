@@ -42,9 +42,11 @@ const StyledHeader = styled.header`
   align-items: center;
 `;
 const Title = styled.h1`
-  @media (min-width: 425px) {
-    color: ${(props) => props.theme.purple};
-    width: 33vw;
+font-size: 20px;
+white-space:nowrap;
+color: ${(props) => props.theme.purple};
+  @media (min-width: 599px) {
+    width: 100%;
     padding: 3px;
     margin: 5px;
     display: flex;
@@ -53,14 +55,12 @@ const Title = styled.h1`
     text-align: center;
     font-size: 30px;
   }
-  font-size: 10px;
 `;
 
 const Spacer = styled.div`
   display: flex;
   justify-content: center;
-  width: 33vw;
-  
+  max-width: 33%;
   @media(min-width:425px){
     width:20rem;
   };

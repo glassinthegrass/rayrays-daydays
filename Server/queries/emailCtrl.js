@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const { EMAIL, ENTRY_KEY } = process.env;
+
 const requestLogin = async (req, res) => {
   const { name, email, relationship } = req.body;
 
@@ -49,6 +50,8 @@ const requestLogin = async (req, res) => {
     console.log(err);
   }
 };
+
+
 
 module.exports = {
   requestLogin,

@@ -60,7 +60,7 @@ height: 3rem;
 margin: 0px;
 padding: 0px;
 width:calc(100% - 2rem);
-@media(min-width:425px){
+@media(min-width:599px){
   width: 35rem;
   
 }; 
@@ -74,7 +74,7 @@ align-items:center;
 width:calc(100% - 2rem);
 cursor:pointer;
 background-color: ${(props) => props.theme.yellow};
-@media(min-width:425px){
+@media(min-width:599px){
     width: 35rem;
   } 
 `;
